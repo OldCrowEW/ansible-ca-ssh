@@ -1,0 +1,90 @@
+ca_default_ca: CA_default
+ca_default_dir: "/etc/pki/CA"
+ca_default_certs: "$dir/certs"
+ca_default_crl_dir: "$dir/crl"
+ca_default_db: "$dir/index.txt"
+ca_default__unique_subject: no
+ca_default_new_certs_dir: "$dir/newcerts"
+ca_default_certificate: "$dir/cacert.pem"
+ca_default_serial: "$dir/serial"
+ca_default_crlnumber: "$dir/crlnumber"
+ca_default_crl: "$dir/crl.pem"
+ca_default_private_key: "$dir/private/cakey.pem"
+ca_default_RANDFILE: "$dir/private/.rand"
+ca_default_x509_ext: usr_cert
+ca_default_name_opt: ca_default
+ca_default_cert_opt: ca_default
+ca_default_default_days: 365
+ca_default_default_crl_days: 30
+ca_default_default_md: sha256
+ca_default_preserve: no
+ca_default_policy: policy_match
+ca_default_policy_countryName: match
+ca_default_policy_stateOrProvinceName: match
+ca_default_policy_organizationName: match
+ca_default_policy_organizationalUnitName: optional
+ca_default_policy_commonName: supplied
+ca_default_policy_emailAddress: optional
+policy_anything_countryName: optional
+policy_anything_stateOrProvinceName: optional
+policy_anything_localityName: optional
+policy_anything_organizationName: optional
+policy_anything_organizationalUnitName: optional
+policy_anything_commonName: supplied
+policy_anything_emailAddress: optional
+req_default_bits: 2048
+req_default_md: sha256
+req_default_keyfile: privkey.pem
+req_distinguished_name: req_distinguished_name
+req_attributes: req_attributes
+req_x509_extensions: v3_ca
+req_string_mask: utf8only
+req_distinguished_name_countryName: "Country Name (2 letter code)"
+req_distinguished_name_countryName_default: XX
+req_distinguished_name_countryName_min: 2
+req_distinguished_name_countryName_max: 2
+req_stateOrProvinceName: "State or Province Name (full name)"
+#req_stateOrProvinceName_default:  = "Default Province"
+req_localityName: "Locality Name (eg, city)"
+req_localityName_default: "Default City"
+req_0_organizationName: "Organization Name (eg, company)"
+req_0_organizationName_default: "Default Company Ltd"
+req_organizationalUnitName: "Organizational Unit Name (eg, section)"
+req_commonName: "Common Name (eg, your name or your server\'s hostname)"
+req_commonName_max: 64
+req_emailAddress: "Email Address"
+req_emailAddress_max: 64
+req_attributes_challengePassword: "A challenge password"
+req_attributes_challengePassword_min: 4
+req_attributes_challengePassword_max: 20
+req_attributes_unstructuredName: "An optional company name"
+usr_cert_basicConstraints: "CA:FALSE"
+usr_cert_nsComment: "OpenSSL Generated Certificate"
+usr_cert_subjectKeyIdentifier: hash
+usr_cert_authorityKeyIdentifier: "keyid,issuer"
+v3_req_basicConstraints: "CA:FALSE"
+v3_req_keyUsage: "nonRepudiation, digitalSignature, keyEncipherment"
+v3_ca_subjectKeyIdentifier: hash
+v3_ca_authorityKeyIdentifier: "keyid:always,issuer"
+v3_ca_basicConstraints: "CA:true"
+crl_ext_authorityKeyIdentifier: "keyid:always"
+proxy_cert_ext_basicConstraints: "CA:FALSE"
+proxy_cert_ext_nsComment: "OpenSSL Generated Certificate"
+proxy_cert_ext_subjectKeyIdentifier: hash
+proxy_cert_ext_authorityKeyIdentifier: "keyid,issuer"
+proxy_cert_ext_proxyCertInfo: "critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo"
+tsa_default_tsa: tsa_config1
+tsa_config1_config1_dir: "./demoCA"
+tsa_config1_serial: "$dir/tsaserial"
+tsa_config1_crypto_device: builtin
+tsa_config1_signer_cert: "$dir/tsacert.pem"
+tsa_config1_certs: "$dir/cacert.pem"
+tsa_config1_signer_key:  "$dir/private/tsakey.pem"
+tsa_config1_default_policy: "{{ tsa_default_tsa }}"
+tsa_config1_other_policies:  "tsa_policy2, tsa_policy3"
+tsa_config1_digests: "sha1, sha256, sha384, sha512"
+tsa_config1_accuracy: "secs:1, millisecs:500, microsecs:100"
+tsa_config1_clock_precision_digits: 0
+tsa_config1_ordering: yes
+tsa_config1_tsa_name: yes
+tsa_config1_ess_cert_id_chain: no

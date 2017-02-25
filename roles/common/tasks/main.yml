@@ -1,0 +1,18 @@
+---
+- name: ensure openssl is install and latest
+  yum: name=openssl status=latest
+
+- name: copy over templated openssl.cnf
+  template: src=openssl.cnf.j2 dest=/etc/pki/tls/openssl.cnf
+
+- name: ensure haveged is install and latest
+  yum: name=haveged state=latest
+
+- name: ensure haveged is install and latest
+  service: name=haveged state=started enabled=yes
+
+- name: ensure ntp is install and running
+  yum: name=ntp status=latest 
+
+- name: ensure ntp is started and enabled on boot
+  service: name=ntpd state=started enabled=yes
