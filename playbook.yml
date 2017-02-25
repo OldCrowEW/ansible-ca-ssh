@@ -1,0 +1,24 @@
+---
+- hosts: host1
+  become: yes
+  user: centos
+  roles:
+    - openssl-ca-generate
+
+- hosts: all
+  become: yes
+  user: centos
+  roles:
+    - openssl-ca-distribute
+
+- hosts: host1
+  become: yes
+  user: centos
+  roles:
+    - openssl-clients-generate
+
+- hosts: all
+  become: yes
+  user: centos
+  roles"
+    openssl-clients-distribute
