@@ -17,11 +17,11 @@
 #   roles:
 #     - openssl-ca-distribute
 
-# - hosts: host1
-#   become: yes
-#   user: centos
-#   roles:
-#     - openssl-ca-intermediate-generate
+- hosts: host1
+  become: yes
+  user: centos
+  roles:
+    - openssl-ca-intermediate-generate
 
 # - hosts: all
 #   become: yes

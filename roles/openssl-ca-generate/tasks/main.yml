@@ -41,4 +41,4 @@
       -subj "/C={{ country_name }}/ST={{ state }}/L={{ locality_name }}/O={{ org_name }}/OU={{ org_unit_name }}/CN={{ common_name }}"
   args:
     chdir: "{{ root_ca_dir }}/"
-    creates: "{{ root_ca_dir }}/certs/{{ root_ca_passwd }}"
+    creates: "{{ root_ca_dir }}/certs/{{ root_ca_cert }}"

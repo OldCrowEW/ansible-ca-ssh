@@ -1,0 +1,58 @@
+---
+- name: Ensure Intermediate CA dir exists
+  file: dest={{ intermediate_ca_dir }} state=directory
+
+- name: Ensure Intermediate CA dir structure exists
+  file: dest="{{ intermediate_ca_dir }}/{{ item }}" state=directory
+  with_items:
+    "{{ ca_dir_structure }}"
+
+- name: Set {{ intermediate_ca_dir }}/private perms
+  file: dest={{ intermediate_ca_dir }}/private mode=700
+
+- name: Create Intermediate CA index
+  file: path={{ intermediate_ca_dir }}/index.txt state=touch
+
+- name: Ensure Intermediate serial file exists
+  copy: src=serial dest={{ intermediate_ca_dir }}/
+  args:
+    creates="{{ intermediate_ca_dir }}/serial"
+
+- name: Copy openssl template to {{ intermediate_ca_dir }}
+  template: src=openssl.cnf.j2 dest={{ intermediate_ca_dir }}/openssl.cnf
+  
+- name: Generate Intermediate CA private key
+  command: openssl genrsa -aes256 \
+      -passout pass:{{ root_ca_passwd }} \
+      -out private/{{ intermediate_ca_private_key }} 4096
+  args:
+    chdir: "{{ intermediate_ca_dir }}/"
+    creates: "{{ intermediate_ca_dir }}/private/{{ intermediate_ca_private_key }}"
+
+- name: Set {{ intermediate_ca_dir }}/private/{{ intermediate_ca_private_key }} perms
+  file: dest={{ intermediate_ca_dir }}/private/{{ intermediate_ca_private_key }} mode=400
+
+#TODO: Find out why Anisble indicates change even though task behaves as expected
+- name: Create Intermediate CA cert signing request
+  command: openssl req -config openssl.cnf \
+      -key private/{{ intermediate_ca_private_key }} \
+      -new -sha256 \
+      -out csr/{{ intermediate_csr }} \
+      -passin pass:{{ root_ca_passwd }} \
+      -subj "/C={{ country_name }}/ST={{ state }}/L={{ locality_name }}/O={{ org_name }}/OU={{ org_unit_name }}/CN={{ common_name }}"
+  args:
+    chdir: "{{ intermediate_ca_dir }}/"
+    creates: "{{ intermediate_ca_dir }}/csr/{{ intermediate_csr }} "
+
+- name: Create Intermediate cert and Sign with Root CA
+  command: openssl ca -batch -config openssl.cnf -extensions v3_intermediate_ca \
+      -days 3650 -notext -md sha256 \
+      -in intermediate/csr/{{ intermediate_csr }} \
+      -out intermediate/certs/{{ intermediate_ca_cert }} \
+      -passin pass:{{ root_ca_passwd }}
+  args:
+    chdir: "{{ root_ca_dir }}/"
+    creates: "{{ intermediate_ca_dir }}/certs/{{ intermediate_ca_cert }}"
+
+- name: Set {{ intermediate_ca_dir }}/certs/{{ intermediate_ca_cert }} perms
+  file: dest={{ intermediate_ca_dir }}/certs/{{ intermediate_ca_cert }} mode=444
