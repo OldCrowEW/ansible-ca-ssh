@@ -8,6 +8,7 @@ intermediate_ca_private_key: intermediate.key.pem
 intermediate_csr: intermediate.csr.pem
 intermediate_ca_crl: intermediate.crl.pem
 intermediate_ca_dir: "{{ root_ca_dir }}/intermediate"
+intermediate_ca_chain: ca-chain.cert.pem
 ca_dir_structure:
   - certs
   - crl

@@ -24,7 +24,7 @@
 - name: Generate CA private key
   command: openssl genrsa -aes256 \
       -passout pass:{{ root_ca_passwd }} \
-      -out private/{{ root_ca_private_key }} 4096 #mode=400
+      -out private/{{ root_ca_private_key }} 4096
   args:
     chdir: "{{ root_ca_dir }}/"
     creates: "{{ root_ca_dir }}/private/{{ root_ca_private_key }}"
@@ -42,3 +42,12 @@
   args:
     chdir: "{{ root_ca_dir }}/"
     creates: "{{ root_ca_dir }}/certs/{{ root_ca_cert }}"
+
+- name: Create certificate chain file
+  raw: cat {{ root_ca_dir }}/certs/{{ root_ca_cert }} > \
+    {{ root_ca_dir }}/certs/{{ root_ca_chain }}
+  args:
+    creates: "{{ root_ca_dir }}/certs/{{ root_ca_chain }}"
+
+- name: Set {{ root_ca_dir }}c/certs/{{ root_ca_chain }} perms
+  file: dest={{ root_ca_dir }}/certs/{{ root_ca_chain }} mode=400

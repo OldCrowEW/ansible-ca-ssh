@@ -3,6 +3,7 @@ root_ca_dir: "/root/ca"
 root_ca_cert: cacert.pem
 root_ca_private_key: cakey.pem
 root_ca_crl: crl.pem
+root_ca_chain: ca-chain.cert.pem
 ca_dir_structure:
   - certs
   - crl

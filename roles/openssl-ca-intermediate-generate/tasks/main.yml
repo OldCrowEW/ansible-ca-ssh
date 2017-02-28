@@ -56,3 +56,13 @@
 
 - name: Set {{ intermediate_ca_dir }}/certs/{{ intermediate_ca_cert }} perms
   file: dest={{ intermediate_ca_dir }}/certs/{{ intermediate_ca_cert }} mode=444
+
+- name: Create certificate chain file
+  raw: cat {{ root_ca_dir }}/intermediate/certs/{{ intermediate_ca_cert }} \
+    {{ root_ca_dir }}/certs/{{ root_ca_cert }} > \
+    {{ root_ca_dir }}/intermediate/certs/{{ intermediate_ca_chain }}
+  args:
+    creates: "{{ intermediate_ca_dir }}/certs/{{ intermediate_ca_chain }}"
+
+- name: Set {{ intermediate_ca_dir }}/certs/{{ intermediate_ca_chain }} perms
+  file: dest={{ intermediate_ca_dir }}/certs/{{ intermediate_ca_chain }} mode=400
