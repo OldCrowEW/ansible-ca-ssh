@@ -11,20 +11,32 @@
   roles:
     - openssl-ca-generate
 
-- hosts: all
-  become: yes
-  user: centos
-  roles:
-    - openssl-ca-distribute
+# - hosts: all
+#   become: yes
+#   user: centos
+#   roles:
+#     - openssl-ca-distribute
 
-- hosts: host1
-  become: yes
-  user: centos
-  roles:
-    - openssl-clients-generate
+# - hosts: host1
+#   become: yes
+#   user: centos
+#   roles:
+#     - openssl-ca-intermediate-generate
 
-- hosts: all
-  become: yes
-  user: centos
-  roles"
-    openssl-clients-distribute
+# - hosts: all
+#   become: yes
+#   user: centos
+#   roles:
+#     - openssl-ca-intermediate-distribute
+
+# - hosts: host1
+#   become: yes
+#   user: centos
+#   roles:
+#     - openssl-clients-generate
+
+# - hosts: all
+#   become: yes
+#   user: centos
+#   roles:
+#     - openssl-clients-distribute

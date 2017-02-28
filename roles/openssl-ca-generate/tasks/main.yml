@@ -1,13 +1,44 @@
 ---
-- name: generate CA private key
-  shell: openssl genrsa -aes256 -out private/ca.key.pem 4096 mode=400
-  args:
-    chdir: "{{ ca_certs_dir }}"
+- name: Ensure root CA dir exists
+  file: dest={{ root_ca_dir }} state=directory
 
-- name: create root CA cert
-  shell: openssl req -config openssl.cnf \
-      -key private/ca.key.pem \
-      -new -x509 -days 7300 -sha256 -extensions v3_ca \
-      -out certs/ca.cert.pem -passin pass:{{ ca_rootca_password }} -subj \"{{ ca_subject }}\"
+- name: Ensure CA dir structure exists
+  file: dest="{{ root_ca_dir }}/{{ item }}" state=directory
+  with_items:
+    "{{ ca_dir_structure }}"
+
+- name: Set {{ root_ca_dir }}/private perms
+  file: dest={{ root_ca_dir }}/private mode=700
+
+- name: Create CA index
+  file: path={{ root_ca_dir }}/index.txt state=touch
+
+- name: Ensure serial file exists
+  copy: src=serial dest={{ root_ca_dir }}/
   args:
-    chdir: "{{ ca_certs_dir }}"
+    creates="{{ root_ca_dir }}/serial"
+
+- name: Copy openssl template to {{ root_ca_dir }}
+  template: src=openssl.cnf.j2 dest={{ root_ca_dir }}/openssl.cnf
+
+- name: Generate CA private key
+  command: openssl genrsa -aes256 \
+      -passout pass:{{ root_ca_passwd }} \
+      -out private/{{ root_ca_private_key }} 4096 #mode=400
+  args:
+    chdir: "{{ root_ca_dir }}/"
+    creates: "{{ root_ca_dir }}/private/{{ root_ca_private_key }}"
+
+- name: Set {{ root_ca_dir }}/private/{{ root_ca_private_key }} perms
+  file: dest={{ root_ca_dir }}/private/{{ root_ca_private_key }} mode=400
+
+- name: Create root CA cert
+  command: openssl req -config openssl.cnf \
+      -key private/{{ root_ca_private_key }} \
+      -new -x509 -days 7300 -sha256 -extensions v3_ca \
+      -out certs/{{ root_ca_cert }} \
+      -passin pass:{{ root_ca_passwd }} \
+      -subj "/C={{ country_name }}/ST={{ state }}/L={{ locality_name }}/O={{ org_name }}/OU={{ org_unit_name }}/CN={{ common_name }}"
+  args:
+    chdir: "{{ root_ca_dir }}/"
+    creates: "{{ root_ca_dir }}/certs/{{ root_ca_passwd }}"

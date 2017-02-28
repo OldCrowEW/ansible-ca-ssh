@@ -1,4 +1,21 @@
+---
 root_ca_dir: "/root/ca"
+root_ca_cert: cacert.pem
+root_ca_private_key: cakey.pem
+root_ca_crl: crl.pem
+ca_dir_structure:
+  - certs
+  - crl
+  - newcerts
+  - private
+root_ca_passwd: secretpassword
+country_name: US
+state: MD
+locality_name: Baltimore
+org_name: OldCrowEW
+org_unit_name: "OldCrowEW Certifcate Authority"
+common_name: "OldCrowEW Root CA"
+email: "ca@oldcrowew.com"
 
 ca_default_ca: CA_default
 ca_default_dir: "{{ root_ca_dir }}"
@@ -7,11 +24,11 @@ ca_default_crl_dir: "$dir/crl"
 ca_default_db: "$dir/index.txt"
 ca_default__unique_subject: no
 ca_default_new_certs_dir: "$dir/newcerts"
-ca_default_certificate: "$dir/cacert.pem"
+ca_default_certificate: "$dir/certs/{{ root_ca_cert }}"
 ca_default_serial: "$dir/serial"
 ca_default_crlnumber: "$dir/crlnumber"
-ca_default_crl: "$dir/crl.pem"
-ca_default_private_key: "$dir/private/cakey.pem"
+ca_default_crl: "$dir/crl/{{ root_ca_crl }}"
+ca_default_private_key: "$dir/private/{{ root_ca_private_key }}"
 ca_default_RANDFILE: "$dir/private/.rand"
 ca_default_x509_ext: usr_cert
 ca_default_name_opt: ca_default
@@ -20,8 +37,8 @@ ca_default_default_days: 365
 ca_default_default_crl_days: 30
 ca_default_default_md: sha256
 ca_default_preserve: no
-ca_default_policy: policy_loose
-ca_policy_strict: ca_policy_strict
+ca_default_policy: policy_strict
+ca_policy_strict: policy_strict
 ca_policy_strict_countryName: match
 ca_policy_strict_stateOrProvinceName: match
 ca_policy_strict_organizationName: match
