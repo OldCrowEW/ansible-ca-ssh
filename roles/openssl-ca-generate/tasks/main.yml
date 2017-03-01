@@ -10,13 +10,21 @@
 - name: Set {{ root_ca_dir }}/private perms
   file: dest={{ root_ca_dir }}/private mode=700
 
+- name: Evaluate index.txt file existance
+  stat: path={{ root_ca_dir }}/index.txt
+  register: root_index
+
 - name: Create CA index
   file: path={{ root_ca_dir }}/index.txt state=touch
+  when: root_index.stat.exists != true
+
+- name: Evaluate serial file existance
+  stat: path={{ root_ca_dir }}/serial
+  register: root_serial
 
 - name: Ensure serial file exists
   copy: src=serial dest={{ root_ca_dir }}/
-  args:
-    creates="{{ root_ca_dir }}/serial"
+  when: root_serial.stat.exists != true
 
 - name: Copy openssl template to {{ root_ca_dir }}
   template: src=openssl.cnf.j2 dest={{ root_ca_dir }}/openssl.cnf
