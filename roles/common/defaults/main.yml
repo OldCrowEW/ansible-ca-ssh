@@ -45,7 +45,7 @@ req_distinguished_name_countryName_default: US
 req_distinguished_name_countryName_min: 2
 req_distinguished_name_countryName_max: 2
 req_stateOrProvinceName: "State or Province Name (full name)"
-req_stateOrProvinceName_default:  = MD
+req_stateOrProvinceName_default: MD
 req_localityName: "Locality Name (eg, city)"
 req_localityName_default: "Baltimore"
 req_0_organizationName: "Organization Name (eg, company)"

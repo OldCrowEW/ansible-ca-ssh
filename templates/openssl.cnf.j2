@@ -69,7 +69,7 @@ preserve	= {{ ca_default_preserve }}			# keep passed DN ordering
 policy		= {{ ca_default_policy }}
 
 # For the CA policy
-[ {{ ca_policy_strict }} ]
+[ policy_strict ]
 countryName		= {{ ca_policy_strict_countryName }}
 stateOrProvinceName	= {{ ca_policy_strict_stateOrProvinceName }}
 organizationName	= {{ ca_policy_strict_organizationName }}
@@ -80,7 +80,7 @@ emailAddress		= {{ ca_policy_strict_emailAddress }}
 # For the 'anything' policy
 # At this point in time, you must list all acceptable 'object'
 # types.
-[ ca_policy_loose ]
+[ policy_loose ]
 countryName		= {{ ca_policy_loose_countryName }}
 stateOrProvinceName	= {{ ca_policy_loose_stateOrProvinceName }}
 localityName		= {{ ca_policy_loose_localityName }}
