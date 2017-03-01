@@ -1,0 +1,11 @@
+---
+root_ca_dir: "/root/ca"
+intermediate_ca_dir: "{{ root_ca_dir }}/intermediate"
+client_passwd: secretpassword
+country_name: US
+state: MD
+locality_name: Baltimore
+org_name: OldCrowEW
+org_unit_name: "OldCrowEW Certifcate Authority"
+common_name: "OldCrowEW Intermediate CA"
+email: "ca@oldcrowew.com"

@@ -29,11 +29,11 @@
 #   roles:
 #     - openssl-ca-intermediate-distribute
 
-# - hosts: host1
-#   become: yes
-#   user: centos
-#   roles:
-#     - openssl-clients-generate
+- hosts: host1
+  become: yes
+  user: centos
+  roles:
+    - openssl-clients-generate
 
 # - hosts: all
 #   become: yes

@@ -1,0 +1,43 @@
+---
+- name: Generate Client private key for all hosts
+  command: openssl genrsa -aes256 \
+      -passout pass:{{ client_passwd }} \
+      -out private/{{ item }}.key.pem 2048
+  with_items: "{{ groups.all }}"
+  when: item != 'localhost'
+  args:
+    chdir: "{{ intermediate_ca_dir }}/"
+
+- name: Set {{ intermediate_ca_dir }}/private/ perms
+  file: dest={{ intermediate_ca_dir }}/private/{{ item }}.key.pem mode=400
+  with_items: "{{ groups.all }}"
+  when: item != 'localhost'
+
+#TODO: Find out why Anisble indicates change even though task behaves as expected
+- name: Create Client cert signing request for all hosts
+  command: openssl req -config openssl.cnf \
+      -key private/{{ item }}.key.pem \
+      -new -sha256 \
+      -out csr/{{ item }}.csr.pem \
+      -passin pass:{{ client_passwd }} \
+      -subj "/C={{ country_name }}/ST={{ state }}/L={{ locality_name }}/O={{ org_name }}/OU={{ org_unit_name }}/CN={{ item }}"
+  with_items: "{{ groups.all }}"
+  when: item != 'localhost'
+  args:
+    chdir: "{{ intermediate_ca_dir }}/"
+
+- name: Create Client cert and Sign with Intermediate CA for all hosts
+  command: openssl ca -batch -config openssl.cnf -extensions server_cert \
+      -days 365 -notext -md sha256 \
+      -in csr/{{ item }}.csr.pem \
+      -out certs/{{ item }}.cert.pem \
+      -passin pass:{{ client_passwd }}
+  with_items: "{{ groups.all }}"
+  when: item != 'localhost'
+  args:
+    chdir: "{{ intermediate_ca_dir }}/"
+
+- name: Set {{ intermediate_ca_dir }}/certs/ perms
+  file: dest={{ intermediate_ca_dir }}/certs/{{ item }}.cert.pem mode=444
+  with_items: "{{ groups.all }}"
+  when: item != 'localhost'
