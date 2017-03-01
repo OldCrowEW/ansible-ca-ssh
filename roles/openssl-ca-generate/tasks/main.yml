@@ -57,5 +57,8 @@
   args:
     creates: "{{ root_ca_dir }}/certs/{{ root_ca_chain }}"
 
-- name: Set {{ root_ca_dir }}c/certs/{{ root_ca_chain }} perms
+- name: Set {{ root_ca_dir }}/certs/{{ root_ca_chain }} perms
   file: dest={{ root_ca_dir }}/certs/{{ root_ca_chain }} mode=400
+
+- name: Fetch certificate chain
+  fetch: src="{{ root_ca_dir }}/certs/{{ root_ca_chain }}" dest={{ ansible_temp_directory }}/ flat=yes

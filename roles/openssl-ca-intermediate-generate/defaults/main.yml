@@ -1,4 +1,5 @@
 ---
+ansible_temp_directory: /tmp/ansible_ca_ssh
 root_ca_dir: "/root/ca"
 root_ca_cert: cacert.pem
 root_ca_key: cakey.pem
@@ -8,7 +9,7 @@ intermediate_ca_private_key: intermediate.key.pem
 intermediate_csr: intermediate.csr.pem
 intermediate_ca_crl: intermediate.crl.pem
 intermediate_ca_dir: "{{ root_ca_dir }}/intermediate"
-intermediate_ca_chain: ca-chain.cert.pem
+intermediate_ca_chain: int-ca-chain.cert.pem
 ca_dir_structure:
   - certs
   - crl

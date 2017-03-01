@@ -1,0 +1,3 @@
+cacert_certificates_path: /etc/pki/ca-trust/source/anchors/
+cacert_update_certs_command: update-ca-trust
+cacert_created_cert_path: /etc/pki/ca-trust/extracted/

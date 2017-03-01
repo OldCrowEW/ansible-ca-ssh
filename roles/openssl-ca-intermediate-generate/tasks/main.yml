@@ -74,3 +74,11 @@
 
 - name: Set {{ intermediate_ca_dir }}/certs/{{ intermediate_ca_chain }} perms
   file: dest={{ intermediate_ca_dir }}/certs/{{ intermediate_ca_chain }} mode=400
+
+
+- name: Fetch Intermediate CA
+  fetch: src="{{ item }}" dest={{ ansible_temp_directory }}/ flat=yes
+  with_items:
+    - "{{ root_ca_dir }}/intermediate/certs/{{ intermediate_ca_chain }}"
+    - "{{ intermediate_ca_dir }}/private/{{ intermediate_ca_private_key }}"
+    - "{{ intermediate_ca_dir }}/certs/{{ intermediate_ca_cert }}"
