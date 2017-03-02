@@ -1,5 +1,6 @@
 root_ca_dir: "/root/ca"
-
+pki_dir: /etc/pki
+tls_dir: "{{ pki_dir }}/tls"
 ca_default_ca: CA_default
 ca_default_dir: "{{ root_ca_dir }}"
 ca_default_certs: "$dir/certs"

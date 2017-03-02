@@ -1,4 +1,5 @@
 ---
+ansible_temp_dir: /tmp/ansible_ca_ssh
 root_ca_dir: "/root/ca"
 intermediate_ca_dir: "{{ root_ca_dir }}/intermediate"
 client_passwd: secretpassword

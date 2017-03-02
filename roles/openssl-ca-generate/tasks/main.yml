@@ -61,4 +61,4 @@
   file: dest={{ root_ca_dir }}/certs/{{ root_ca_chain }} mode=400
 
 - name: Fetch certificate chain
-  fetch: src="{{ root_ca_dir }}/certs/{{ root_ca_chain }}" dest={{ ansible_temp_directory }}/ flat=yes
+  fetch: src="{{ root_ca_dir }}/certs/{{ root_ca_chain }}" dest={{ ansible_temp_dir }}/ flat=yes

@@ -1,5 +1,5 @@
 ---
-ansible_temp_directory: /tmp/ansible_ca_ssh
+ansible_temp_dir: /tmp/ansible_ca_ssh
 root_ca_dir: "/root/ca"
 root_ca_cert: cacert.pem
 root_ca_private_key: cakey.pem

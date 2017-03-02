@@ -1,0 +1,5 @@
+ansible_temp_dir: /tmp/ansible_ca_ssh
+intermediate_ca_chain: int-ca-chain.cert.pem
+pki_dir: /etc/pki
+cacert_certificates_path: "{{ pki_dir }}/ca-trust/source/anchors/"
+java_keystore_cert_dir: "{{ pki_dir }}/java"

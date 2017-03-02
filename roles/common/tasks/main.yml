@@ -3,7 +3,7 @@
   yum: name=openssl state=latest
 
 - name: copy over templated openssl.cnf
-  template: src=openssl.cnf.j2 dest=/etc/pki/tls/openssl.cnf
+  template: src=openssl.cnf.j2 dest={{ tls_dir }}/openssl.cnf
 
 - name: ensure haveged is install and latest
   yum: name=haveged state=latest

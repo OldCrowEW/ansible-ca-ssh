@@ -77,7 +77,7 @@
 
 
 - name: Fetch Intermediate CA
-  fetch: src="{{ item }}" dest={{ ansible_temp_directory }}/ flat=yes
+  fetch: src="{{ item }}" dest={{ ansible_temp_dir }}/ flat=yes
   with_items:
     - "{{ root_ca_dir }}/intermediate/certs/{{ intermediate_ca_chain }}"
     - "{{ intermediate_ca_dir }}/private/{{ intermediate_ca_private_key }}"

@@ -1,0 +1,7 @@
+---
+- name: Copy {{ root_ca_chain }} to host
+  copy: src="{{ ansible_temp_dir }}/{{ root_ca_chain }}" 
+        dest={{ cacert_certificates_path }}/ owner=root group=root mode=644
+
+- name: Run update-ca-trust extract
+  command: update-ca-trust extract

@@ -41,3 +41,13 @@
   file: dest={{ intermediate_ca_dir }}/certs/{{ item }}.cert.pem mode=444
   with_items: "{{ groups.all }}"
   when: item != 'localhost'
+
+- name: Fetch keys
+  fetch: src="{{ intermediate_ca_dir }}/private/{{ item }}.key.pem" dest={{ ansible_temp_dir }}/ flat=yes
+  with_items: "{{ groups.all }}"
+  when: item != 'localhost'
+
+- name: Fetch certs
+  fetch: src="{{ intermediate_ca_dir }}/certs/{{ item }}.cert.pem" dest={{ ansible_temp_dir }}/ flat=yes
+  with_items: "{{ groups.all }}"
+  when: item != 'localhost'

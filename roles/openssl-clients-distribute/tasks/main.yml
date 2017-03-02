@@ -1,0 +1,13 @@
+- name: Copy file to host
+  copy: src="{{ ansible_temp_dir }}/{{ inventory_hostname }}.{{ item }}" dest={{ ansible_temp_dir }}
+  with_items:
+    - key.pem
+    - cert.pem
+
+- name: Copy private key to host {{ inventory_hostname }}
+  copy: src="{{ ansible_temp_dir }}/{{ inventory_hostname }}.key.pem" 
+        dest={{ tls_priv_dir }}/ owner=root group=root mode=640
+
+- name: Deploy the host cert to host {{ inventory_hostname }}
+  copy: src="{{ ansible_temp_dir }}/{{ inventory_hostname }}.cert.pem" 
+        dest={{ tls_cert_dir }}/ owner=root group=root mode=644
